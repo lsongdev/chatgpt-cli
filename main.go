@@ -55,7 +55,7 @@ func main() {
 			fmt.Println(err)
 			continue
 		}
-		// totalTokens = resp.Usage.TotalTokens
+		totalTokens = int(resp.Usage.TotalTokens)
 		message := resp.Choices[0].Message.Content
 		rendered, _ := glamour.RenderWithEnvironmentConfig(message)
 		fmt.Println(rendered)
