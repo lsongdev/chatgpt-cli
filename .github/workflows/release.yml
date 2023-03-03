@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ "master" ]
 
+permissions:
+  contents: write
+
 jobs:
 
   build:
@@ -17,7 +20,7 @@ jobs:
       with:
         go-version: 1.19.1
     - name: Build
-      run: make build
+      run: make
     - name: Set current date as env variable
       run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
     - name: Upload Release
