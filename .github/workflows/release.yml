@@ -1,0 +1,33 @@
+name: Release
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: write
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Golang
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19.1
+    - name: Build
+      run: make
+    - name: Set current date as env variable
+      run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+    - name: Upload Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: nightly-tag-${{ env.date }}
+        name: release-${{ env.date }}
+        files: bin/*
+        draft: false
+
