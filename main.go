@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"log"
 	"os"
 
@@ -10,12 +11,12 @@ import (
 	"github.com/song940/openai-go/openai"
 )
 
-const maxTokens = 4096
-
 func main() {
+
 	apiKey := os.Getenv("OPENAI_API_KEY")
 	if apiKey == "" {
-		log.Fatal("Missing OPENAI_API_KEY, you can find or create your API key here: https://platform.openai.com/account/api-keys")
+		fmt.Println("[!] Missing OPENAI_API_KEY, you can find or create your API key here: https://platform.openai.com/account/api-keys")
+		return
 	}
 	config := openai.Configuration{
 		APIKey: apiKey,
@@ -24,20 +25,18 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	scanner := bufio.NewScanner(os.Stdin)
+
+	var prompt = "You are ChatGPT, a large language model trained by OpenAI. Answer as concisely as possible."
+	if len(os.Args) > 1 {
+		prompt = os.Args[1]
+	}
 	messages := []openai.ChatCompletionMessage{
 		{
 			Role:    "system",
-			Content: "You are ChatGPT, a large language model trained by OpenAI. Answer as concisely as possible.",
+			Content: prompt,
 		},
 	}
-	totalTokens := 0
-	for {
-		fmt.Printf("(%d/%d)> ", totalTokens, maxTokens)
-		if !scanner.Scan() {
-			break
-		}
-		text := scanner.Text()
+	ask := func(text string) string {
 		messages = append(
 			messages, openai.ChatCompletionMessage{
 				Role:    "user",
@@ -50,20 +49,36 @@ func main() {
 			MaxTokens:       3000,
 			NumberOfChoices: 1,
 		}
-		resp, err := client.CreateChatCompletion(request)
+		res, err := client.CreateChatCompletion(request)
 		if err != nil {
-			fmt.Println(err)
-			continue
+			return fmt.Sprintf("%v", err)
 		}
-		totalTokens = int(resp.Usage.TotalTokens)
-		message := resp.Choices[0].Message.Content
-		rendered, _ := glamour.RenderWithEnvironmentConfig(message)
-		fmt.Println(rendered)
+		message := res.Choices[0].Message.Content
 		messages = append(
 			messages, openai.ChatCompletionMessage{
 				Role:    "assistant",
 				Content: message,
 			},
 		)
+		rendered, _ := glamour.RenderWithEnvironmentConfig(message)
+		return rendered
 	}
+	fi, _ := os.Stdin.Stat()
+	if (fi.Mode() & os.ModeCharDevice) == 0 {
+		input, _ := io.ReadAll(os.Stdin)
+		fmt.Println(ask(string(input)))
+		return
+	}
+	scanner := bufio.NewScanner(os.Stdin)
+	for {
+		fmt.Print("You> ")
+		if !scanner.Scan() {
+			break
+		}
+		text := scanner.Text()
+		out := ask(text)
+		fmt.Println("OpenAI>")
+		fmt.Println(out)
+	}
+
 }
