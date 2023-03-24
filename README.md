@@ -54,12 +54,11 @@ Press `Ctrl^D` to end the conversation.
 
 ## Options
 
-  The program accepts the following command line options:
+The program accepts the following command line options:
 
-  •  -p : The prompt to use.
-  •  -s : The name of the system role (defaults to "You are ChatGPT, a large
-  language model trained by OpenAI. Answer as concisely as possible.").
-  •  -r : Disable color output.
++ -p : The prompt to use, it will ignore pipeline input and interactive.
++ -s : The name of the system role.
++ -r : Disable color output.
 
 Once the program is running, you can start a conversation by typing your prompt and hitting enter. 
 
