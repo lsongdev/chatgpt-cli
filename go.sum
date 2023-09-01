@@ -49,6 +49,8 @@ github.com/song940/openai-go v0.0.0-20230303082920-8224a68322ca h1:J9f0KgGxHY6wC
 github.com/song940/openai-go v0.0.0-20230303082920-8224a68322ca/go.mod h1:yzd9xT2uQWr8WJ7ubNSJOcEbOK/m9trvPEs6ULvTK74=
 github.com/song940/openai-go v0.0.0-20230303083542-512afec09777 h1:1MgNmx8Xg0qsi2Jq3OCbXluHQwu07yXJSXUeT/YlNbE=
 github.com/song940/openai-go v0.0.0-20230303083542-512afec09777/go.mod h1:yzd9xT2uQWr8WJ7ubNSJOcEbOK/m9trvPEs6ULvTK74=
+github.com/song940/openai-go v0.0.0-20230901072938-c42119fdbc95 h1:7kaQGXUDtXoqAN6j4dnTUzmg2jV4el/UMN69XKnoY9Q=
+github.com/song940/openai-go v0.0.0-20230901072938-c42119fdbc95/go.mod h1:yzd9xT2uQWr8WJ7ubNSJOcEbOK/m9trvPEs6ULvTK74=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/yuin/goldmark v1.2.1/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
